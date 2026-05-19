@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>School++</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+
+        <!-- Вход -->
+        <section class="login-screen" id="loginScreen">
+            <div class="login-bg-blur blur-one"></div>
+            <div class="login-bg-blur blur-two"></div>
+
+            <div class="login-card">
+                <div class="logo">
+                    <div class="logo-icon">S++</div>
+
+                    <div>
+                        <h1>School++</h1>
+                        <p>Электронный дневник</p>
+                    </div>
+                </div>
+
+                <div class="login-text">
+                    <h2>Добро пожаловать 👋</h2>
+                    <p>Войди в свой школьный аккаунт, чтобы открыть дневник.</p>
+                </div>
+
+                <form class="login-form" id="loginForm">
+                    <label>
+                        Имя ученика
+                        <input
+                            type="text"
+                            id="studentName"
+                            placeholder="Введите имя ученика"
+                            autocomplete="off"
+                            required
+                        />
+                    </label>
+
+                    <label>
+                        Класс
+                        <input
+                            type="text"
+                            id="studentClass"
+                            placeholder="Введите класс"
+                            autocomplete="off"
+                            required
+                        />
+                    </label>
+
+                    <button type="submit" class="primary-btn">
+                        Войти в дневник
+                    </button>
+                </form>
+
+                <p class="login-hint">
+                    Это прототип: данные пока сохраняются только в браузере.
+                </p>
+            </div>
+        </section>
+
+        <!-- Основа -->
+        <section class="dashboard-screen hidden" id="dashboardScreen">
+
+            <header class="topbar">
+                <div>
+                    <p class="page-label">Электронный дневник</p>
+                    <h2 id="welcomeTitle">Привет!</h2>
+                </div>
+
+                <div class="topbar-actions">
+                    <button class="profile-btn" id="profileBtn" type="button">
+                        <span class="profile-mini-avatar" id="profileMiniAvatar">У</span>
+                        <span>Профиль</span>
+                    </button>
+
+                    <button class="theme-toggle" id="themeToggle" type="button">
+                        <span class="theme-icon" id="themeIcon"></span>
+                        <span class="theme-text" id="themeText">Тёмная</span>
+                    </button>
+
+                    <button class="logout-btn" id="logoutBtn" type="button">
+                        Выйти
+                    </button>
+                </div>
+            </header>
+
+            <main class="dashboard-layout">
+
+                <section class="hero-card">
+                    <div>
+                        <p class="card-label">Сегодня</p>
+
+                        <h3 id="heroTitle">--</h3>
+
+                        <p class="card-description" id="heroDescription">
+                            Здесь скоро появятся уроки, домашка, оценки и важные события.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="summary-grid">
+                    <article class="summary-card next-lesson-card">
+                        <div class="summary-card-top">
+                            <p>Следующий урок</p>
+                            <span id="nextLessonBadge">--</span>
+                        </div>
+                        
+                        <strong id="nextLessonTitle">--</strong>
+
+                        <span id="nextLessonInfo">
+                            Расписание скоро появится
+                        </span>
+                    </article>
+
+                    <article class="summary-card">
+                        <p>Уроков</p>
+                        <strong id="todayLessonsCount">0</strong>
+                        <span id="todayLessonsText">Расписание будет добавлено позже</span>
+                    </article>
+
+                    <article class="summary-card">
+                        <p>Домашка</p>
+                        <strong id="homeworkCount">0</strong>
+                        <span id="homeworkText">Задания появятся позже</span>
+                    </article>
+
+                    <article class="summary-card">
+                        <p>Контрольные</p>
+                        <strong id="testsCount">0</strong>
+                        <span id="testsText">Ближайшие события</span>
+                    </article>
+                </section>
+
+                <section class="week-switcher">
+                    <div class="week-switcher-header">
+                        <div>
+                            <p class="panel-label">Неделя</p>
+                            <h3 id="selectedDayTitle">--</h3>
+                        </div>
+
+                        <button class="today-btn" id="todayBtn" type="button">
+                            Сегодня
+                        </button>
+                    </div>
+
+                    <div class="day-tabs" id="dayTabs">
+                        <button class="day-tab" type="button" data-day="monday">
+                            <span>Пн</span>
+                            <small>Понедельник</small>
+                        </button>
+
+                        <button class="day-tab" type="button" data-day="tuesday">
+                            <span>Вт</span>
+                            <small>Вторник</small>
+                        </button>
+
+                        <button class="day-tab" type="button" data-day="wednesday">
+                            <span>Ср</span>
+                            <small>Среда</small>
+                        </button>
+
+                        <button class="day-tab" type="button" data-day="thursday">
+                            <span>Чт</span>
+                            <small>Четверг</small>
+                        </button>
+
+                        <button class="day-tab" type="button" data-day="friday">
+                            <span>Пт</span>
+                            <small>Пятница</small>
+                        </button>
+
+                        <button class="day-tab" type="button" data-day="saturday">
+                            <span>Сб</span>
+                            <small>Суббота</small>
+                        </button>
+
+                        <button class="day-tab" type="button" data-day="sunday">
+                            <span>Вс</span>
+                            <small>Воскресенье</small>
+                        </button>
+                    </div>
+                </section>
+
+                <section class="content-grid">
+                    <article class="panel-card">
+                        <div class="panel-header">
+                            <div>
+                                <p class="panel-label">Расписание</p>
+                                <h3>Уроки</h3>
+                            </div>
+                        </div>
+
+                        <div class="lessons-list" id="todayLessonsList"></div>
+                    </article>
+
+                    <article class="panel-card">
+                        <div class="panel-header">
+                            <div>
+                                <p class="panel-label">Домашка</p>
+                                <h3>Ближайшие задания</h3>
+                            </div>
+
+                            <span class="panel-badge">активно</span>
+                        </div>
+
+                        <div class="homework-list" id="homeworkList"></div>
+                    </article>
+                </section>
+                
+            </main>
+        </section>
+
+    </div>
+
+    <!-- Модальное окно выхода -->
+    <div class="modal-overlay hidden" id="logoutModal">
+        <div class="modal-card">
+            <div class="modal-icon">
+                ?
+            </div>
+
+            <h3>Выйти из дневника?</h3>
+
+            <p>
+                Ты вернёшься на экран входа. Данные профиля будут удалены из этого браузера.
+            </p>
+
+            <div class="modal-actions">
+                <button class="modal-btn secondary" id="cancelLogoutBtn" type="button">
+                    Отмена
+                </button>
+
+                <button class="modal-btn danger" id="confirmLogoutBtn" type="button">
+                    Выйти
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно профиля -->
+    <div class="modal-overlay hidden" id="profileModal">
+        <div class="modal-card profile-modal">
+            <button class="modal-close" id="closeProfileBtn" type="button">
+                ×
+            </button>
+
+            <div class="profile-avatar-block">
+                <div class="profile-avatar" id="profileAvatar">
+                    У
+                </div>
+
+                <label class="avatar-upload-btn">
+                    Загрузить фото
+                    <input type="file" id="avatarInput" accept="image/*">
+                </label>
+            </div>
+
+            <h3 id="profileName">Имя ученика</h3>
+            <p class="profile-subtitle" id="profileSubtitle">Класс не указан</p>
+
+            <div class="profile-actions single-action" id="profileActions">
+                <button class="modal-btn secondary hidden" id="removeAvatarBtn" type="button">
+                    Убрать фото
+                </button>
+
+                <button class="modal-btn primary" id="profileOkBtn" type="button">
+                    Готово
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подтверждение удаления аватарки -->
+    <div class="modal-overlay hidden" id="removeAvatarModal">
+        <div class="modal-card">
+            <div class="modal-icon">
+                !
+            </div>
+
+            <h3>Убрать фото профиля?</h3>
+
+            <p>
+                Текущая аватарка будет удалена. Вместо неё будет отображаться первая буква имени.
+            </p>
+
+            <div class="modal-actions">
+                <button class="modal-btn secondary" id="cancelRemoveAvatarBtn" type="button">
+                    Отмена
+                </button>
+
+                <button class="modal-btn danger" id="confirmRemoveAvatarBtn" type="button">
+                    Убрать
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подгоняем аватарку -->
+    <div class="modal-overlay hidden" id="avatarCropModal">
+        <div class="modal-card avatar-crop-modal">
+            <button class="modal-close" id="closeAvatarCropBtn" type="button">
+                ×
+            </button>
+
+            <h3>Подогнать фото</h3>
+
+            <p class="crop-subtitle">
+                Выбери масштаб, чтобы фото красиво смотрелось в профиле.
+            </p>
+
+            <div class="crop-preview">
+                <img id="avatarCropImage" alt="Предпросмотр аватарки">
+            </div>
+
+            <label class="crop-range-label">
+                Масштаб
+                <input type="range" id="avatarZoomRange" min="1" max="2.4" step="0.01" value="1">
+            </label>
+
+            <div class="modal-actions">
+                <button class="modal-btn secondary" id="cancelAvatarCropBtn" type="button">
+                    Отмена
+                </button>
+
+                <button class="modal-btn primary" id="saveAvatarCropBtn" type="button">
+                    Сохранить
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
