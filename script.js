@@ -1,74 +1,54 @@
-// =========================
-// School++ / Main script
-// =========================
-
 document.addEventListener("DOMContentLoaded", () => {
   const loginScreen = document.getElementById("loginScreen");
   const dashboardScreen = document.getElementById("dashboardScreen");
-
   const loginForm = document.getElementById("loginForm");
-  const studentNameInput = document.getElementById("studentName");
-  const studentClassInput = document.getElementById("studentClass");
+  const loginInput = document.getElementById("loginInput");
+  const passwordInput = document.getElementById("passwordInput");
+  const loginError = document.getElementById("loginError");
+  const forgotPasswordBtn = document.getElementById("forgotPasswordBtn");
+  const registerBtn = document.getElementById("registerBtn");
 
-  const welcomeTitle = document.getElementById("welcomeTitle");
-
-  const profileBtn = document.getElementById("profileBtn");
-  const profileModal = document.getElementById("profileModal");
-  const closeProfileBtn = document.getElementById("closeProfileBtn");
-  const profileOkBtn = document.getElementById("profileOkBtn");
-  const profileActions = document.getElementById("profileActions");
-
-  const profileMiniAvatar = document.getElementById("profileMiniAvatar");
-  const profileAvatar = document.getElementById("profileAvatar");
-  const avatarInput = document.getElementById("avatarInput");
-  const removeAvatarBtn = document.getElementById("removeAvatarBtn");
-
-  const removeAvatarModal = document.getElementById("removeAvatarModal");
-  const cancelRemoveAvatarBtn = document.getElementById("cancelRemoveAvatarBtn");
-  const confirmRemoveAvatarBtn = document.getElementById("confirmRemoveAvatarBtn");
-
-  const avatarCropModal = document.getElementById("avatarCropModal");
-  const avatarCropImage = document.getElementById("avatarCropImage");
-  const avatarZoomRange = document.getElementById("avatarZoomRange");
-  const closeAvatarCropBtn = document.getElementById("closeAvatarCropBtn");
-  const cancelAvatarCropBtn = document.getElementById("cancelAvatarCropBtn");
-  const saveAvatarCropBtn = document.getElementById("saveAvatarCropBtn");
-
-  const profileName = document.getElementById("profileName");
-  const profileSubtitle = document.getElementById("profileSubtitle");
-
+  const themeToggle = document.getElementById("themeToggle");
+  const themeIcon = document.getElementById("themeIcon");
+  const themeText = document.getElementById("themeText");
   const logoutBtn = document.getElementById("logoutBtn");
   const logoutModal = document.getElementById("logoutModal");
   const cancelLogoutBtn = document.getElementById("cancelLogoutBtn");
   const confirmLogoutBtn = document.getElementById("confirmLogoutBtn");
 
-  const themeToggle = document.getElementById("themeToggle");
-  const themeIcon = document.getElementById("themeIcon");
-  const themeText = document.getElementById("themeText");
-
+  const heroEyebrow = document.getElementById("heroEyebrow");
   const heroTitle = document.getElementById("heroTitle");
   const heroDescription = document.getElementById("heroDescription");
+  const studentFullName = document.getElementById("studentFullName");
+  const studentClassBtn = document.getElementById("studentClassBtn");
+  const teacherName = document.getElementById("teacherName");
+  const editProfileBtn = document.getElementById("editProfileBtn");
+  const profileModal = document.getElementById("profileModal");
+  const avatarInput = document.getElementById("avatarInput");
+  const removeAvatarBtn = document.getElementById("removeAvatarBtn");
+  const studentPhoto = document.getElementById("studentPhoto");
+  const photoPlaceholder = document.getElementById("photoPlaceholder");
 
-  const nextLessonBadge = document.getElementById("nextLessonBadge");
-  const nextLessonTitle = document.getElementById("nextLessonTitle");
-  const nextLessonInfo = document.getElementById("nextLessonInfo");
-
-  const todayLessonsCount = document.getElementById("todayLessonsCount");
-  const todayLessonsText = document.getElementById("todayLessonsText");
-  const homeworkCount = document.getElementById("homeworkCount");
-  const homeworkText = document.getElementById("homeworkText");
-  const testsCount = document.getElementById("testsCount");
-  const testsText = document.getElementById("testsText");
-
-  const todayLessonsList = document.getElementById("todayLessonsList");
-  const homeworkList = document.getElementById("homeworkList");
-
-  const selectedDayTitle = document.getElementById("selectedDayTitle");
-  const todayBtn = document.getElementById("todayBtn");
+  const weekRangeTitle = document.getElementById("weekRangeTitle");
+  const prevWeekBtn = document.getElementById("prevWeekBtn");
+  const nextWeekBtn = document.getElementById("nextWeekBtn");
   const dayTabs = document.getElementById("dayTabs");
-  const dayTabButtons = document.querySelectorAll(".day-tab");
+  const diaryTitle = document.getElementById("diaryTitle");
+  const diaryTableWrap = document.getElementById("diaryTableWrap");
 
-  let selectedAvatarData = null;
+  const forgotModal = document.getElementById("forgotModal");
+  const forgotMessage = document.getElementById("forgotMessage");
+  const registerModal = document.getElementById("registerModal");
+  const registerStepCode = document.getElementById("registerStepCode");
+  const registerStepAccount = document.getElementById("registerStepAccount");
+  const inviteForm = document.getElementById("inviteForm");
+  const inviteCodeInput = document.getElementById("inviteCodeInput");
+  const inviteError = document.getElementById("inviteError");
+  const registerForm = document.getElementById("registerForm");
+  const newLoginInput = document.getElementById("newLoginInput");
+  const newPasswordInput = document.getElementById("newPasswordInput");
+  const repeatPasswordInput = document.getElementById("repeatPasswordInput");
+  const registerError = document.getElementById("registerError");
 
   const STORAGE_KEYS = {
     user: "schoolPlusPlus_user",
@@ -76,106 +56,40 @@ document.addEventListener("DOMContentLoaded", () => {
     avatar: "schoolPlusPlus_avatar"
   };
 
-  // Временная липовая БД.
-  // Потом сюда можно будет подключить настоящие данные гимназии/сервера.
-  const SCHOOL_DATA = {
-    schedule: {
-      monday: [
-        { time: "14:00–14:45", subject: "Биология", room: "65", note: "Экскурсия" },
-        { time: "15:00–15:45", subject: "Искусство", room: "59", note: "Тема не указана" },
-        { time: "16:00–16:45", subject: "Физика", room: "79", note: "Тема не указана" },
-        { time: "16:55–17:40", subject: "Всемирная история", room: "43", note: "Африка и Америка" }
-      ],
-      tuesday: [
-        { time: "13:30–14:15", subject: "Геометрия", room: "305", note: "Смежные и вертикальные углы" },
-        { time: "14:25–15:10", subject: "Английский язык", room: "221", note: "Conditionals" },
-        { time: "15:25–16:10", subject: "История", room: "207", note: "Экономическое развитие" },
-        { time: "16:20–17:05", subject: "Физкультура", room: "зал", note: "Форма обязательна" }
-      ],
-      wednesday: [
-        { time: "13:30–14:15", subject: "Белорусская литература", room: "116", note: "Караткевич" },
-        { time: "14:25–15:10", subject: "Алгебра", room: "305", note: "Решение задач" },
-        { time: "15:25–16:10", subject: "География", room: "309", note: "Климатические пояса" },
-        { time: "16:20–17:05", subject: "Физика", room: "214", note: "Подготовка к КР" }
-      ],
-      thursday: [
-        { time: "13:30–14:15", subject: "Биология", room: "302", note: "Семена и прорастание" },
-        { time: "14:25–15:10", subject: "Русская литература", room: "118", note: "Паустовский" },
-        { time: "15:25–16:10", subject: "Английский язык", room: "221", note: "Speaking practice" },
-        { time: "16:20–17:05", subject: "Трудовое обучение", room: "105", note: "Практическая работа" }
-      ],
-      friday: [
-        { time: "13:30–14:15", subject: "Геометрия", room: "305", note: "Контрольная работа" },
-        { time: "14:25–15:10", subject: "География", room: "309", note: "Работа с картой" },
-        { time: "15:25–16:10", subject: "Алгебра", room: "305", note: "Самостоятельная работа" },
-        { time: "16:20–17:05", subject: "История Беларуси", room: "207", note: "Повторение темы" }
-      ],
-      saturday: [],
-      sunday: []
-    },
-
-    homework: [
-      {
-        subject: "Английский",
-        task: "ex. 4c*, p. 183 (SB)\n Ответить на вопросы и обосновать почему так.\n Отвечать без тетради.",
-        due: "завтра",
-        priority: "high"
-      },
-      {
-        subject: "Всемирная история",
-        task: "Посмотреть презентацию про Тропическую Африку и Америку.",
-        due: "завтра",
-        priority: "medium"
-      },
-      {
-        subject: "Биология",
-        task: "Подг. к экскурсии (знать многообразие растений)",
-        due: "завтра",
-        priority: "low"
-      }
-    ],
-
-    tests: [
-      {
-        subject: "Алгебра",
-        date: "понедельник",
-        title: "Контрольная работа"
-      }
-    ]
-  };
-
-  const DAY_KEYS = [
-    "sunday",
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday"
-  ];
-
+  const DAY_ORDER = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
   const DAY_NAMES = {
-    sunday: "Воскресенье",
     monday: "Понедельник",
     tuesday: "Вторник",
     wednesday: "Среда",
     thursday: "Четверг",
     friday: "Пятница",
-    saturday: "Суббота"
+    saturday: "Суббота",
+    sunday: "Воскресенье"
+  };
+  const DAY_SHORT = {
+    monday: "Пн",
+    tuesday: "Вт",
+    wednesday: "Ср",
+    thursday: "Чт",
+    friday: "Пт",
+    saturday: "Сб",
+    sunday: "Вс"
   };
 
-  let selectedDayKey = getTodayKey();
+  const accounts = typeof SCHOOL_ACCOUNTS !== "undefined" && Array.isArray(SCHOOL_ACCOUNTS) ? SCHOOL_ACCOUNTS : [];
+  const diary = typeof SCHOOL_DIARY !== "undefined" ? SCHOOL_DIARY : { weeks: [] };
+  let selectedWeekIndex = getInitialWeekIndex();
+  let selectedDayKey = getInitialDayKey();
 
-  initApp();
+  init();
 
-  function initApp() {
+  function init() {
     loadTheme();
-    renderDateAndDayType();
-    renderDaySwitcher();
-    renderDashboardData(selectedDayKey);
+    bindEvents();
+    renderPasswordToggles();
+    renderAvatar();
 
     const savedUser = getSavedUser();
-
     if (savedUser) {
       showDashboard(savedUser);
     } else {
@@ -183,78 +97,124 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // =========================
-  // Переключатель дней
-  // =========================
+  function bindEvents() {
+    loginForm.addEventListener("submit", handleLogin);
+    forgotPasswordBtn.addEventListener("click", () => openModal(forgotModal));
+    registerBtn.addEventListener("click", openRegisterModal);
 
-  dayTabButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const dayKey = button.dataset.day;
-      selectDay(dayKey);
+    themeToggle.addEventListener("click", toggleTheme);
+    logoutBtn.addEventListener("click", () => openModal(logoutModal));
+    cancelLogoutBtn.addEventListener("click", () => closeModal(logoutModal));
+    confirmLogoutBtn.addEventListener("click", logout);
+
+    prevWeekBtn.addEventListener("click", () => selectWeek(selectedWeekIndex - 1));
+    nextWeekBtn.addEventListener("click", () => selectWeek(selectedWeekIndex + 1));
+    dayTabs.addEventListener("click", (event) => {
+      const button = event.target.closest(".day-tab");
+      if (!button) return;
+      selectedDayKey = button.dataset.day;
+      renderDiary();
     });
-  });
 
-  todayBtn.addEventListener("click", () => {
-    selectDay(getTodayKey());
-  });
+    avatarInput.addEventListener("change", handleAvatarUpload);
+    removeAvatarBtn.addEventListener("click", removeAvatar);
+    editProfileBtn.addEventListener("click", () => openModal(profileModal));
 
-  function selectDay(dayKey) {
-    selectedDayKey = dayKey;
+    inviteCodeInput.addEventListener("input", () => {
+      inviteCodeInput.value = formatInviteCode(inviteCodeInput.value);
+      hideMessage(inviteError);
+    });
+    inviteForm.addEventListener("submit", handleInviteSubmit);
+    registerForm.addEventListener("submit", handleRegisterSubmit);
 
-    renderDaySwitcher();
-    renderDashboardData(selectedDayKey);
+    document.querySelectorAll("[data-close-modal]").forEach((button) => {
+      button.addEventListener("click", () => {
+        closeModal(document.getElementById(button.dataset.closeModal));
+      });
+    });
+
+    document.querySelectorAll(".modal-overlay").forEach((modal) => {
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) closeModal(modal);
+      });
+    });
+
+    document.querySelectorAll("[data-prototype-form]").forEach((form) => {
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        showMessage(forgotMessage, "Восстановление в прототипе пока не подключено.", "info");
+      });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        document.querySelectorAll(".modal-overlay").forEach(closeModal);
+      }
+    });
   }
 
-  function renderDaySwitcher() {
-    const realTodayKey = getTodayKey();
-
-    selectedDayTitle.textContent = DAY_NAMES[selectedDayKey];
-
-    dayTabButtons.forEach((button) => {
-      const dayKey = button.dataset.day;
-
-      button.classList.toggle("active", dayKey === selectedDayKey);
-      button.classList.toggle("real-today", dayKey === realTodayKey);
-    });
-  }
-
-  // =========================
-  // Авторизация
-  // =========================
-
-  loginForm.addEventListener("submit", (event) => {
+  function handleLogin(event) {
     event.preventDefault();
+    const login = loginInput.value.trim();
+    const password = passwordInput.value;
+    const account = accounts.find((item) => item.login === login && item.password === password);
 
-    const name = studentNameInput.value.trim();
-    const studentClass = studentClassInput.value.trim();
-
-    if (name === "" || studentClass === "") {
-      alert("Заполни имя и класс");
+    if (!account) {
+      showMessage(loginError, "Неверный логин или пароль. Проверьте данные и попробуйте ещё раз.");
       return;
     }
 
-    const user = {
-      name: name,
-      className: studentClass
-    };
+    saveUser(account);
+    hideMessage(loginError);
+    showDashboard(account);
+  }
 
-    localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(user));
-    showDashboard(user);
-  });
+  function openRegisterModal() {
+    inviteForm.reset();
+    registerForm.reset();
+    hideMessage(inviteError);
+    hideMessage(registerError);
+    registerStepCode.classList.remove("hidden");
+    registerStepAccount.classList.add("hidden");
+    openModal(registerModal);
+    inviteCodeInput.focus();
+  }
 
-  function getSavedUser() {
-    const savedUser = localStorage.getItem(STORAGE_KEYS.user);
+  function handleInviteSubmit(event) {
+    event.preventDefault();
+    const code = inviteCodeInput.value.trim();
+    const account = accounts.find((item) => item.inviteCode === code);
 
-    if (!savedUser) {
-      return null;
+    if (!account) {
+      showMessage(inviteError, "Пригласительный код не найден. Проверьте символы и дефисы.");
+      return;
     }
 
-    try {
-      return JSON.parse(savedUser);
-    } catch (error) {
-      localStorage.removeItem(STORAGE_KEYS.user);
-      return null;
+    registerStepCode.classList.add("hidden");
+    registerStepAccount.classList.remove("hidden");
+    newLoginInput.focus();
+  }
+
+  function handleRegisterSubmit(event) {
+    event.preventDefault();
+    const login = newLoginInput.value.trim();
+    const password = newPasswordInput.value;
+    const repeated = repeatPasswordInput.value;
+
+    if (!login || !password) {
+      showMessage(registerError, "Заполните логин и пароль.");
+      return;
     }
+
+    if (password !== repeated) {
+      showMessage(registerError, "Пароли не совпадают.");
+      return;
+    }
+
+    const testAccount = accounts[0];
+    saveUser(testAccount);
+    closeModal(registerModal);
+    showDashboard(testAccount);
   }
 
   function showLogin() {
@@ -265,532 +225,317 @@ document.addEventListener("DOMContentLoaded", () => {
   function showDashboard(user) {
     loginScreen.classList.add("hidden");
     dashboardScreen.classList.remove("hidden");
-
-    welcomeTitle.textContent = `Привет, ${user.name}!`;
-    renderProfile(user);
+    renderStudent(user);
+    renderHero(user);
+    renderDiary();
   }
 
-  // =========================
-  // Профиль ученика
-  // =========================
+  function saveUser(user) {
+    localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(user));
+  }
 
-  profileBtn.addEventListener("click", () => {
-    const user = getSavedUser();
+  function getSavedUser() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.user);
+      const user = raw ? JSON.parse(raw) : null;
 
-    if (user) {
-      renderProfile(user);
-    }
-
-    profileModal.classList.remove("hidden");
-  });
-
-  closeProfileBtn.addEventListener("click", () => {
-    profileModal.classList.add("hidden");
-  });
-
-  profileOkBtn.addEventListener("click", () => {
-    profileModal.classList.add("hidden");
-  });
-
-  profileModal.addEventListener("click", (event) => {
-    if (event.target === profileModal) {
-      profileModal.classList.add("hidden");
-    }
-  });
-
-  avatarInput.addEventListener("change", () => {
-    const file = avatarInput.files[0];
-
-    if (!file) {
-      return;
-    }
-
-    if (!file.type.startsWith("image/")) {
-      alert("Выбери изображение");
-      avatarInput.value = "";
-      return;
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      selectedAvatarData = reader.result;
-
-      avatarCropImage.onload = () => {
-        avatarZoomRange.value = "1";
-        updateAvatarPreview();
-        avatarCropModal.classList.remove("hidden");
-      };
-
-      avatarCropImage.src = selectedAvatarData;
-    };
-
-    reader.readAsDataURL(file);
-  });
-
-  removeAvatarBtn.addEventListener("click", () => {
-    const savedAvatar = localStorage.getItem(STORAGE_KEYS.avatar);
-
-    if (!savedAvatar) {
-      return;
-    }
-
-    removeAvatarModal.classList.remove("hidden");
-  });
-
-  cancelRemoveAvatarBtn.addEventListener("click", () => {
-    removeAvatarModal.classList.add("hidden");
-  });
-
-  confirmRemoveAvatarBtn.addEventListener("click", () => {
-    localStorage.removeItem(STORAGE_KEYS.avatar);
-    removeAvatarModal.classList.add("hidden");
-
-    const user = getSavedUser();
-
-    if (user) {
-      renderProfile(user);
-    }
-  });
-
-  removeAvatarModal.addEventListener("click", (event) => {
-    if (event.target === removeAvatarModal) {
-      removeAvatarModal.classList.add("hidden");
-    }
-  });
-
-  avatarZoomRange.addEventListener("input", updateAvatarPreview);
-
-  closeAvatarCropBtn.addEventListener("click", closeAvatarCropModal);
-  cancelAvatarCropBtn.addEventListener("click", closeAvatarCropModal);
-
-  avatarCropModal.addEventListener("click", (event) => {
-    if (event.target === avatarCropModal) {
-      closeAvatarCropModal();
-    }
-  });
-
-  saveAvatarCropBtn.addEventListener("click", () => {
-    if (!selectedAvatarData) {
-      closeAvatarCropModal();
-      return;
-    }
-
-    const zoom = Number(avatarZoomRange.value);
-
-    createCroppedAvatar(selectedAvatarData, zoom, (croppedAvatar) => {
-      localStorage.setItem(STORAGE_KEYS.avatar, croppedAvatar);
-
-      const user = getSavedUser();
-
-      if (user) {
-        renderProfile(user);
+      if (!user || !user.login || !user.firstName || !user.lastName) {
+        localStorage.removeItem(STORAGE_KEYS.user);
+        return null;
       }
 
-      closeAvatarCropModal();
-    });
-  });
-
-  function updateAvatarPreview() {
-    avatarCropImage.style.transform = `scale(${avatarZoomRange.value})`;
-  }
-
-  function closeAvatarCropModal() {
-    avatarCropModal.classList.add("hidden");
-    selectedAvatarData = null;
-    avatarInput.value = "";
-    avatarZoomRange.value = "1";
-    avatarCropImage.src = "";
-    avatarCropImage.style.transform = "scale(1)";
-  }
-
-  function createCroppedAvatar(imageData, zoom, callback) {
-    const image = new Image();
-
-    image.onload = () => {
-      const canvasSize = 420;
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
-
-      canvas.width = canvasSize;
-      canvas.height = canvasSize;
-
-      const sourceSize = Math.min(image.width, image.height) / zoom;
-      const sourceX = (image.width - sourceSize) / 2;
-      const sourceY = (image.height - sourceSize) / 2;
-
-      context.drawImage(
-        image,
-        sourceX,
-        sourceY,
-        sourceSize,
-        sourceSize,
-        0,
-        0,
-        canvasSize,
-        canvasSize
-      );
-
-      callback(canvas.toDataURL("image/jpeg", 0.92));
-    };
-
-    image.onerror = () => {
-      alert("Не получилось обработать изображение. Попробуй выбрать другую фотографию.");
-      closeAvatarCropModal();
-    };
-
-    image.src = imageData;
-  }
-
-  function renderProfile(user) {
-    const classText = user.className ? `${user.className} класс` : "Класс не указан";
-
-    profileName.textContent = user.name;
-    profileSubtitle.textContent = `${classText} · ученик`;
-
-    renderAvatar(user.name);
-  }
-
-  function renderAvatar(name) {
-    const savedAvatar = localStorage.getItem(STORAGE_KEYS.avatar);
-    const initials = getInitials(name);
-
-    if (savedAvatar) {
-      profileAvatar.style.backgroundImage = `url(${savedAvatar})`;
-      profileAvatar.textContent = "";
-
-      profileMiniAvatar.style.backgroundImage = `url(${savedAvatar})`;
-      profileMiniAvatar.textContent = "";
-
-      removeAvatarBtn.classList.remove("hidden");
-      profileActions.classList.remove("single-action");
-    } else {
-      profileAvatar.style.backgroundImage = "";
-      profileAvatar.textContent = initials;
-
-      profileMiniAvatar.style.backgroundImage = "";
-      profileMiniAvatar.textContent = initials;
-
-      removeAvatarBtn.classList.add("hidden");
-      profileActions.classList.add("single-action");
+      return accounts.find((account) => account.login === user.login) || user;
+    } catch (error) {
+      localStorage.removeItem(STORAGE_KEYS.user);
+      return null;
     }
   }
 
-  function getInitials(name) {
-    return name.trim().charAt(0).toUpperCase();
-  }
-
-  // =========================
-  // Выход с модальным окном
-  // =========================
-
-  logoutBtn.addEventListener("click", () => {
-    logoutModal.classList.remove("hidden");
-  });
-
-  cancelLogoutBtn.addEventListener("click", () => {
-    logoutModal.classList.add("hidden");
-  });
-
-  confirmLogoutBtn.addEventListener("click", () => {
+  function logout() {
     localStorage.removeItem(STORAGE_KEYS.user);
-
-    studentNameInput.value = "";
-    studentClassInput.value = "";
-
-    logoutModal.classList.add("hidden");
+    loginForm.reset();
+    closeModal(logoutModal);
     showLogin();
-  });
+  }
 
-  logoutModal.addEventListener("click", (event) => {
-    if (event.target === logoutModal) {
-      logoutModal.classList.add("hidden");
+  function renderStudent(user) {
+    const fullName = `${user.lastName} ${user.firstName}`.toUpperCase();
+    studentFullName.textContent = fullName;
+    studentClassBtn.textContent = `${user.className} класс`;
+    teacherName.textContent = user.teacher || "—";
+  }
+
+  function renderHero(user) {
+    const today = new Date();
+    const dayKey = getDayKeyByDate(today);
+    const dateText = formatDateLong(today);
+    const dayText = DAY_NAMES[dayKey].toLowerCase();
+    const todayLessons = getLessonsForDate(today);
+
+    heroEyebrow.textContent = `Привет, ${user.firstName}! Сегодня`;
+    heroTitle.textContent = `${dateText}, ${dayText}`;
+    heroDescription.textContent = todayLessons.length
+      ? "Учебный день. Ниже собраны уроки, задания и ближайшие события."
+      : "Уроков нет. Можно спокойно отдохнуть и подготовиться к новой неделе.";
+  }
+
+  function renderDiary() {
+    const week = diary.weeks[selectedWeekIndex];
+    if (!week) {
+      weekRangeTitle.textContent = "Данных пока нет";
+      dayTabs.innerHTML = "";
+      diaryTitle.textContent = "Дневник";
+      diaryTableWrap.innerHTML = `<div class="empty-state">Недели с расписанием пока не добавлены.</div>`;
+      return;
     }
-  });
 
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      logoutModal.classList.add("hidden");
-      profileModal.classList.add("hidden");
-      removeAvatarModal.classList.add("hidden");
-      closeAvatarCropModal();
+    weekRangeTitle.textContent = formatWeekRange(week);
+    prevWeekBtn.disabled = selectedWeekIndex === 0;
+    nextWeekBtn.disabled = selectedWeekIndex >= diary.weeks.length - 1;
+    renderDayTabs(week);
+
+    const lessons = week.days[selectedDayKey] || [];
+    const dayDate = getDateForDay(week.start, selectedDayKey);
+    diaryTitle.textContent = `${DAY_NAMES[selectedDayKey]}, ${dayDate.getDate()}`;
+
+    if (!lessons.length) {
+      diaryTableWrap.innerHTML = `<div class="empty-state">В этот день уроков нет. Дневник пуст, но неделя остаётся доступной для заполнения.</div>`;
+      return;
     }
-  });
 
-  // =========================
-  // Тема
-  // =========================
+    diaryTableWrap.innerHTML = `
+      <table class="diary-table">
+        <thead>
+          <tr>
+            <th>Урок</th>
+            <th>Домашнее задание</th>
+            <th>Отметка</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${lessons.map(renderLessonRow).join("")}
+        </tbody>
+      </table>
+    `;
+  }
 
-  themeToggle.addEventListener("click", () => {
+  function renderLessonRow(lesson) {
+    const homework = lesson.homework ? escapeHtml(lesson.homework) : "—";
+    const grade = lesson.grade ? `<span class="grade">${escapeHtml(lesson.grade)}</span>` : "—";
+
+    return `
+      <tr>
+        <td data-label="Урок">
+          <div class="lesson-cell">
+            <strong>${lesson.number}. ${escapeHtml(lesson.subject)}</strong>
+            <span>${escapeHtml(lesson.time)} · каб. ${escapeHtml(lesson.room)}</span>
+          </div>
+        </td>
+        <td data-label="Домашнее задание">${homework}</td>
+        <td data-label="Отметка">${grade}</td>
+      </tr>
+    `;
+  }
+
+  function renderDayTabs(week) {
+    const todayIso = toIsoDate(new Date());
+    dayTabs.innerHTML = DAY_ORDER.map((dayKey) => {
+      const date = getDateForDay(week.start, dayKey);
+      const isSelected = dayKey === selectedDayKey;
+      const isToday = toIsoDate(date) === todayIso;
+      return `
+        <button class="day-tab ${isSelected ? "active" : ""} ${isToday ? "real-today" : ""}" type="button" data-day="${dayKey}">
+          <span>${DAY_SHORT[dayKey]}</span>
+          <small>${date.getDate()}</small>
+        </button>
+      `;
+    }).join("");
+  }
+
+  function selectWeek(index) {
+    if (index < 0 || index >= diary.weeks.length) return;
+    selectedWeekIndex = index;
+    selectedDayKey = getInitialDayKeyForWeek(diary.weeks[index]);
+    renderDiary();
+  }
+
+  function getInitialWeekIndex() {
+    const todayIso = toIsoDate(new Date());
+    const index = diary.weeks.findIndex((week) => week.start <= todayIso && todayIso <= week.end);
+    return index >= 0 ? index : 0;
+  }
+
+  function getInitialDayKey() {
+    const week = diary.weeks[selectedWeekIndex];
+    return getInitialDayKeyForWeek(week);
+  }
+
+  function getInitialDayKeyForWeek(week) {
+    if (!week) return "monday";
+    const today = new Date();
+    const todayIso = toIsoDate(today);
+    if (week.start <= todayIso && todayIso <= week.end) return getDayKeyByDate(today);
+    return "monday";
+  }
+
+  function getLessonsForDate(date) {
+    const iso = toIsoDate(date);
+    const week = diary.weeks.find((item) => item.start <= iso && iso <= item.end);
+    return week ? week.days[getDayKeyByDate(date)] || [] : [];
+  }
+
+  function getDayKeyByDate(date) {
+    const map = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+    return map[date.getDay()];
+  }
+
+  function getDateForDay(weekStart, dayKey) {
+    const date = parseIsoDate(weekStart);
+    date.setDate(date.getDate() + DAY_ORDER.indexOf(dayKey));
+    return date;
+  }
+
+  function parseIsoDate(value) {
+    const [year, month, day] = value.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  }
+
+  function toIsoDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
+  function formatDateLong(date) {
+    return new Intl.DateTimeFormat("ru-RU", { day: "numeric", month: "long" }).format(date);
+  }
+
+  function formatWeekRange(week) {
+    const start = parseIsoDate(week.start);
+    const end = parseIsoDate(week.end);
+    const startDay = start.getDate();
+    const endDay = end.getDate();
+    const month = new Intl.DateTimeFormat("ru-RU", { month: "long" }).format(end);
+    return `${startDay}–${endDay} ${month}`;
+  }
+
+  function handleAvatarUpload() {
+    const file = avatarInput.files[0];
+    if (!file || !file.type.startsWith("image/")) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      localStorage.setItem(STORAGE_KEYS.avatar, reader.result);
+      renderAvatar();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function removeAvatar() {
+    localStorage.removeItem(STORAGE_KEYS.avatar);
+    avatarInput.value = "";
+    renderAvatar();
+  }
+
+  function renderAvatar() {
+    const avatar = localStorage.getItem(STORAGE_KEYS.avatar);
+    if (avatar) {
+      studentPhoto.src = avatar;
+      studentPhoto.classList.remove("hidden");
+      photoPlaceholder.classList.add("hidden");
+      removeAvatarBtn.classList.remove("hidden");
+      return;
+    }
+
+    studentPhoto.removeAttribute("src");
+    studentPhoto.classList.add("hidden");
+    photoPlaceholder.classList.remove("hidden");
+    removeAvatarBtn.classList.add("hidden");
+    photoPlaceholder.innerHTML = getUploadIcon();
+  }
+
+  function toggleTheme() {
     const isDark = document.body.classList.toggle("dark");
-
-    if (isDark) {
-      localStorage.setItem(STORAGE_KEYS.theme, "dark");
-      setThemeButton("dark");
-    } else {
-      localStorage.setItem(STORAGE_KEYS.theme, "light");
-      setThemeButton("light");
-    }
-  });
+    const theme = isDark ? "dark" : "light";
+    localStorage.setItem(STORAGE_KEYS.theme, theme);
+    setThemeButton(theme);
+  }
 
   function loadTheme() {
-    const savedTheme = localStorage.getItem(STORAGE_KEYS.theme);
-
-    if (savedTheme === "dark") {
-      document.body.classList.add("dark");
-      setThemeButton("dark");
-    } else {
-      document.body.classList.remove("dark");
-      setThemeButton("light");
-    }
+    const theme = localStorage.getItem(STORAGE_KEYS.theme) === "dark" ? "dark" : "light";
+    document.body.classList.toggle("dark", theme === "dark");
+    setThemeButton(theme);
   }
 
   function setThemeButton(theme) {
-    if (theme === "dark") {
-      themeIcon.innerHTML = getSunIcon();
-      themeText.textContent = "Светлая";
-    } else {
-      themeIcon.innerHTML = getMoonIcon();
-      themeText.textContent = "Тёмная";
+    themeIcon.innerHTML = theme === "dark" ? getSunIcon() : getMoonIcon();
+    themeText.textContent = theme === "dark" ? "Светлая" : "Тёмная";
+  }
+
+  function renderPasswordToggles() {
+    document.querySelectorAll("[data-toggle-password]").forEach((button) => {
+      const input = document.getElementById(button.dataset.togglePassword);
+      button.innerHTML = getEyeIcon(false);
+      button.addEventListener("click", () => {
+        const isHidden = input.type === "password";
+        input.type = isHidden ? "text" : "password";
+        button.innerHTML = getEyeIcon(isHidden);
+        button.setAttribute("aria-label", isHidden ? "Скрыть пароль" : "Показать пароль");
+      });
+    });
+  }
+
+  function openModal(modal) {
+    modal.classList.remove("hidden");
+  }
+
+  function closeModal(modal) {
+    if (modal) modal.classList.add("hidden");
+  }
+
+  function showMessage(element, text, type = "error") {
+    element.textContent = text;
+    element.className = `form-message ${type}`;
+    element.classList.remove("hidden");
+  }
+
+  function hideMessage(element) {
+    element.textContent = "";
+    element.classList.add("hidden");
+  }
+
+  function formatInviteCode(value) {
+    const clean = value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 16);
+    return clean.replace(/(.{4})/g, "$1-").replace(/-$/, "");
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function getEyeIcon(isVisible) {
+    if (isVisible) {
+      return `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 3l18 18M10.6 10.6a2 2 0 0 0 2.8 2.8M9.2 5.4A9.8 9.8 0 0 1 12 5c5.5 0 9 5.2 9 7a7.8 7.8 0 0 1-2.1 3M6.5 6.8C4.3 8.3 3 10.7 3 12c0 1.8 3.5 7 9 7 1.4 0 2.6-.3 3.7-.8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
     }
+
+    return `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12s3.5-7 9.5-7 9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>`;
   }
 
   function getMoonIcon() {
-    return `
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path
-          d="M20 15.31A8.2 8.2 0 0 1 8.69 4a6.4 6.4 0 1 0 11.31 11.31Z"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-    `;
+    return `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 15.31A8.2 8.2 0 0 1 8.69 4a6.4 6.4 0 1 0 11.31 11.31Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   }
 
   function getSunIcon() {
-    return `
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <circle
-          cx="12"
-          cy="12"
-          r="4"
-          stroke="currentColor"
-          stroke-width="2"
-        />
-        <path
-          d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-        />
-      </svg>
-    `;
+    return `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
   }
 
-  // =========================
-  // Дата и тип дня
-  // =========================
-
-  function renderDateAndDayType() {
-    const now = new Date();
-    const dayNumber = now.getDay();
-
-    const dayFormatter = new Intl.DateTimeFormat("ru-RU", {
-      weekday: "long"
-    });
-
-    const dateFormatter = new Intl.DateTimeFormat("ru-RU", {
-      day: "numeric",
-      month: "long"
-    });
-
-    const day = dayFormatter.format(now);
-    const date = dateFormatter.format(now);
-
-    heroTitle.textContent = `${date}, ${day}`;
-
-    if (dayNumber === 0) {
-      heroDescription.textContent =
-        "Уроков нет. Можно спокойно отдохнуть и подготовиться к новой неделе.";
-    } else if (dayNumber === 6) {
-      heroDescription.textContent =
-        "Уроков нет. Отличный день, чтобы закрыть долги, повторить темы и немного отдохнуть.";
-    } else {
-      heroDescription.textContent =
-        "Учебный день. Ниже собраны уроки, задания и ближайшие события.";
-    }
-  }
-
-  // =========================
-  // Главная страница
-  // =========================
-
-  function renderDashboardData(dayKey = selectedDayKey) {
-    const selectedLessons = SCHOOL_DATA.schedule[dayKey] || [];
-    const activeHomework = SCHOOL_DATA.homework || [];
-    const activeTests = SCHOOL_DATA.tests || [];
-
-    renderSummaryCards(selectedLessons, activeHomework, activeTests);
-    renderTodayLessons(dayKey, selectedLessons);
-    renderHomework(activeHomework);
-    renderNextLesson();
-  }
-
-  function renderSummaryCards(todayLessons, homework, tests) {
-    todayLessonsCount.textContent = todayLessons.length;
-    todayLessonsText.textContent =
-      todayLessons.length > 0
-        ? "Расписание загружено"
-        : "Уроков нет";
-
-    homeworkCount.textContent = homework.length;
-    homeworkText.textContent =
-      homework.length > 0
-        ? "Активные задания"
-        : "Все задания выполнены";
-
-    testsCount.textContent = tests.length;
-    testsText.textContent =
-      tests.length > 0
-        ? `${tests[0].subject} — ${tests[0].date}`
-        : "Контрольных нет";
-  }
-
-  function renderTodayLessons(todayKey, lessons) {
-    if (lessons.length === 0) {
-      todayLessonsList.innerHTML = `
-        <div class="empty-state">
-          В этот день уроков нет. Можно отдохнуть или спокойно подготовиться к занятиям.
-        </div>
-      `;
-      return;
-    }
-
-    todayLessonsList.innerHTML = lessons
-      .map((lesson) => {
-        return `
-          <div class="lesson-item">
-            <div class="lesson-time">${lesson.time}</div>
-
-            <div class="lesson-main">
-              <h4>${lesson.subject}</h4>
-              <p>${lesson.note}</p>
-            </div>
-
-            <div class="lesson-room">${lesson.room}</div>
-          </div>
-        `;
-      })
-      .join("");
-  }
-
-  function renderHomework(homework) {
-    if (homework.length === 0) {
-      homeworkList.innerHTML = `
-        <div class="empty-state">
-          Домашних заданий пока нет.
-        </div>
-      `;
-      return;
-    }
-
-    homeworkList.innerHTML = homework
-      .map((item) => {
-        return `
-          <div class="homework-item">
-            <div class="homework-main">
-              <h4>${item.subject}</h4>
-              <p>${item.task}</p>
-              <p>Срок: ${item.due}</p>
-            </div>
-
-            <div class="homework-priority ${item.priority}">
-              ${getPriorityText(item.priority)}
-            </div>
-          </div>
-        `;
-      })
-      .join("");
-  }
-
-  function renderNextLesson() {
-    const nextLessonData = getNextLesson();
-
-    if (!nextLessonData) {
-      nextLessonBadge.textContent = "нет";
-      nextLessonTitle.textContent = "Уроков нет";
-      nextLessonInfo.textContent = "Расписание пока пустое";
-      return;
-    }
-
-    const { lesson, dayKey, dayOffset } = nextLessonData;
-
-    nextLessonBadge.textContent = getDayOffsetText(dayOffset, dayKey);
-    nextLessonTitle.textContent = lesson.subject;
-    nextLessonInfo.textContent = `${lesson.time} · кабинет ${lesson.room} · ${lesson.note}`;
-  }
-
-  function getNextLesson() {
-    const now = new Date();
-    const todayNumber = now.getDay();
-    const currentMinutes = now.getHours() * 60 + now.getMinutes();
-
-    for (let offset = 0; offset < 7; offset++) {
-      const dayNumber = (todayNumber + offset) % 7;
-      const dayKey = DAY_KEYS[dayNumber];
-      const lessons = SCHOOL_DATA.schedule[dayKey] || [];
-
-      for (const lesson of lessons) {
-        const lessonStart = getLessonStartMinutes(lesson.time);
-
-        if (offset > 0 || lessonStart > currentMinutes) {
-          return {
-            lesson: lesson,
-            dayKey: dayKey,
-            dayOffset: offset
-          };
-        }
-      }
-    }
-
-    return null;
-  }
-
-  function getLessonStartMinutes(timeRange) {
-    const startTime = timeRange.split("–")[0];
-    const [hours, minutes] = startTime.split(":").map(Number);
-
-    return hours * 60 + minutes;
-  }
-
-  function getTodayKey() {
-    const todayNumber = new Date().getDay();
-    return DAY_KEYS[todayNumber];
-  }
-
-  function getDayOffsetText(offset, dayKey) {
-    if (offset === 0) {
-      return "сегодня";
-    }
-
-    if (offset === 1) {
-      return "завтра";
-    }
-
-    return DAY_NAMES[dayKey].toLowerCase();
-  }
-
-  function getPriorityText(priority) {
-    if (priority === "high") {
-      return "важно";
-    }
-
-    if (priority === "medium") {
-      return "средне";
-    }
-
-    return "легко";
+  function getUploadIcon() {
+    return `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M5 20h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Загрузить фото</span>`;
   }
 });

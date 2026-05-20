@@ -3,15 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>School++</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="app">
-
-        <!-- Вход -->
         <section class="login-screen" id="loginScreen">
             <div class="login-bg-blur blur-one"></div>
             <div class="login-bg-blur blur-two"></div>
@@ -19,7 +15,6 @@
             <div class="login-card">
                 <div class="logo">
                     <div class="logo-icon">S++</div>
-
                     <div>
                         <h1>School++</h1>
                         <p>Электронный дневник</p>
@@ -27,315 +22,220 @@
                 </div>
 
                 <div class="login-text">
-                    <h2>Добро пожаловать 👋</h2>
-                    <p>Войди в свой школьный аккаунт, чтобы открыть дневник.</p>
+                    <h2>Вход в дневник</h2>
+                    <p>Используйте логин и пароль для входа.</p>
                 </div>
 
-                <form class="login-form" id="loginForm">
+                <form class="login-form" id="loginForm" novalidate>
                     <label>
-                        Имя ученика
-                        <input
-                            type="text"
-                            id="studentName"
-                            placeholder="Введите имя ученика"
-                            autocomplete="off"
-                            required
-                        />
+                        Логин
+                        <input type="text" id="loginInput" placeholder="Введите логин" autocomplete="username">
                     </label>
 
                     <label>
-                        Класс
-                        <input
-                            type="text"
-                            id="studentClass"
-                            placeholder="Введите класс"
-                            autocomplete="off"
-                            required
-                        />
+                        Пароль
+                        <span class="password-field">
+                            <input type="password" id="passwordInput" placeholder="Введите пароль" autocomplete="current-password">
+                            <button class="icon-btn password-toggle" type="button" data-toggle-password="passwordInput" aria-label="Показать пароль"></button>
+                        </span>
                     </label>
 
-                    <button type="submit" class="primary-btn">
-                        Войти в дневник
-                    </button>
+                    <p class="form-message error hidden" id="loginError"></p>
+
+                    <button type="submit" class="primary-btn">Войти в дневник</button>
+
+                    <div class="login-links">
+                        <button type="button" id="forgotPasswordBtn">Забыли пароль?</button>
+                        <span>Новый пользователь? <button type="button" id="registerBtn">Зарегистрироваться</button></span>
+                    </div>
                 </form>
-
-                <p class="login-hint">
-                    Это прототип: данные пока сохраняются только в браузере.
-                </p>
             </div>
         </section>
 
-        <!-- Основа -->
         <section class="dashboard-screen hidden" id="dashboardScreen">
-
             <header class="topbar">
-                <div>
-                    <p class="page-label">Электронный дневник</p>
-                    <h2 id="welcomeTitle">Привет!</h2>
-                </div>
+                <a class="brand-mark" href="#" aria-label="School++">SCHOOL++</a>
 
                 <div class="topbar-actions">
-                    <button class="profile-btn" id="profileBtn" type="button">
-                        <span class="profile-mini-avatar" id="profileMiniAvatar">У</span>
-                        <span>Профиль</span>
-                    </button>
-
                     <button class="theme-toggle" id="themeToggle" type="button">
                         <span class="theme-icon" id="themeIcon"></span>
                         <span class="theme-text" id="themeText">Тёмная</span>
                     </button>
 
-                    <button class="logout-btn" id="logoutBtn" type="button">
-                        Выйти
-                    </button>
+                    <button class="logout-btn" id="logoutBtn" type="button">Выйти</button>
                 </div>
             </header>
 
             <main class="dashboard-layout">
-
                 <section class="hero-card">
                     <div>
-                        <p class="card-label">Сегодня</p>
-
-                        <h3 id="heroTitle">--</h3>
-
-                        <p class="card-description" id="heroDescription">
-                            Здесь скоро появятся уроки, домашка, оценки и важные события.
-                        </p>
+                        <p class="card-label" id="heroEyebrow">Сегодня</p>
+                        <h2 id="heroTitle">Привет!</h2>
+                        <p class="card-description" id="heroDescription"></p>
                     </div>
                 </section>
 
-                <section class="summary-grid">
-                    <article class="summary-card next-lesson-card">
-                        <div class="summary-card-top">
-                            <p>Следующий урок</p>
-                            <span id="nextLessonBadge">--</span>
+                <section class="student-card">
+                    <div class="student-photo-area">
+                        <label class="student-photo" id="studentPhotoLabel">
+                            <input type="file" id="avatarInput" accept="image/*">
+                            <span class="photo-placeholder" id="photoPlaceholder"></span>
+                            <img class="student-photo-img hidden" id="studentPhoto" alt="Фото ученика">
+                        </label>
+
+                        <button class="remove-photo-btn hidden" id="removeAvatarBtn" type="button">Убрать фото</button>
+                    </div>
+
+                    <div class="student-info">
+                        <div class="student-header-strip">
+                            <p class="student-badge">
+                                <span id="studentFullName">Ученик</span>
+                                <span class="dot-separator">·</span>
+                                <button class="class-link" id="studentClassBtn" type="button">Класс</button>
+                            </p>
+                            <span class="online-status">онлайн</span>
                         </div>
-                        
-                        <strong id="nextLessonTitle">--</strong>
 
-                        <span id="nextLessonInfo">
-                            Расписание скоро появится
-                        </span>
-                    </article>
+                        <p class="teacher-line">Классный руководитель: <span id="teacherName">—</span></p>
 
-                    <article class="summary-card">
-                        <p>Уроков</p>
-                        <strong id="todayLessonsCount">0</strong>
-                        <span id="todayLessonsText">Расписание будет добавлено позже</span>
-                    </article>
-
-                    <article class="summary-card">
-                        <p>Домашка</p>
-                        <strong id="homeworkCount">0</strong>
-                        <span id="homeworkText">Задания появятся позже</span>
-                    </article>
-
-                    <article class="summary-card">
-                        <p>Контрольные</p>
-                        <strong id="testsCount">0</strong>
-                        <span id="testsText">Ближайшие события</span>
-                    </article>
+                        <button class="edit-profile-btn" id="editProfileBtn" type="button">
+                            <span aria-hidden="true">✎</span>
+                            Изменить
+                        </button>
+                    </div>
                 </section>
 
                 <section class="week-switcher">
                     <div class="week-switcher-header">
-                        <div>
+                        <button class="week-btn" id="prevWeekBtn" type="button">← Прошлая неделя</button>
+                        <div class="week-title">
                             <p class="panel-label">Неделя</p>
-                            <h3 id="selectedDayTitle">--</h3>
+                            <h3 id="weekRangeTitle">—</h3>
                         </div>
-
-                        <button class="today-btn" id="todayBtn" type="button">
-                            Сегодня
-                        </button>
+                        <button class="week-btn" id="nextWeekBtn" type="button">Следующая неделя →</button>
                     </div>
 
-                    <div class="day-tabs" id="dayTabs">
-                        <button class="day-tab" type="button" data-day="monday">
-                            <span>Пн</span>
-                            <small>Понедельник</small>
-                        </button>
+                    <div class="day-tabs" id="dayTabs"></div>
+                </section>
 
-                        <button class="day-tab" type="button" data-day="tuesday">
-                            <span>Вт</span>
-                            <small>Вторник</small>
-                        </button>
-
-                        <button class="day-tab" type="button" data-day="wednesday">
-                            <span>Ср</span>
-                            <small>Среда</small>
-                        </button>
-
-                        <button class="day-tab" type="button" data-day="thursday">
-                            <span>Чт</span>
-                            <small>Четверг</small>
-                        </button>
-
-                        <button class="day-tab" type="button" data-day="friday">
-                            <span>Пт</span>
-                            <small>Пятница</small>
-                        </button>
-
-                        <button class="day-tab" type="button" data-day="saturday">
-                            <span>Сб</span>
-                            <small>Суббота</small>
-                        </button>
-
-                        <button class="day-tab" type="button" data-day="sunday">
-                            <span>Вс</span>
-                            <small>Воскресенье</small>
-                        </button>
+                <section class="panel-card diary-panel">
+                    <div class="panel-header">
+                        <div>
+                            <p class="panel-label">Дневник</p>
+                            <h3 id="diaryTitle">—</h3>
+                        </div>
                     </div>
+
+                    <div class="diary-table-wrap" id="diaryTableWrap"></div>
                 </section>
-
-                <section class="content-grid">
-                    <article class="panel-card">
-                        <div class="panel-header">
-                            <div>
-                                <p class="panel-label">Расписание</p>
-                                <h3>Уроки</h3>
-                            </div>
-                        </div>
-
-                        <div class="lessons-list" id="todayLessonsList"></div>
-                    </article>
-
-                    <article class="panel-card">
-                        <div class="panel-header">
-                            <div>
-                                <p class="panel-label">Домашка</p>
-                                <h3>Ближайшие задания</h3>
-                            </div>
-
-                            <span class="panel-badge">активно</span>
-                        </div>
-
-                        <div class="homework-list" id="homeworkList"></div>
-                    </article>
-                </section>
-                
             </main>
         </section>
-
     </div>
 
-    <!-- Модальное окно выхода -->
     <div class="modal-overlay hidden" id="logoutModal">
         <div class="modal-card">
-            <div class="modal-icon">
-                ?
-            </div>
-
+            <div class="modal-icon">?</div>
             <h3>Выйти из дневника?</h3>
-
-            <p>
-                Ты вернёшься на экран входа. Данные профиля будут удалены из этого браузера.
-            </p>
-
+            <p>Вы вернётесь на экран входа. Тема и фото ученика останутся в этом браузере.</p>
             <div class="modal-actions">
-                <button class="modal-btn secondary" id="cancelLogoutBtn" type="button">
-                    Отмена
-                </button>
-
-                <button class="modal-btn danger" id="confirmLogoutBtn" type="button">
-                    Выйти
-                </button>
+                <button class="modal-btn secondary" id="cancelLogoutBtn" type="button">Отмена</button>
+                <button class="modal-btn danger" id="confirmLogoutBtn" type="button">Выйти</button>
             </div>
         </div>
     </div>
 
-    <!-- Модальное окно профиля -->
-    <div class="modal-overlay hidden" id="profileModal">
-        <div class="modal-card profile-modal">
-            <button class="modal-close" id="closeProfileBtn" type="button">
-                ×
-            </button>
+    <div class="modal-overlay hidden" id="forgotModal">
+        <div class="modal-card wide-modal">
+            <button class="modal-close" data-close-modal="forgotModal" type="button">×</button>
+            <h3>Восстановление доступа</h3>
+            <div class="recovery-grid">
+                <form class="recovery-method" data-prototype-form>
+                    <h4>Способ 1</h4>
+                    <p>Если в профиле указан e-mail</p>
+                    <input type="email" placeholder="Введите e-mail">
+                    <button class="modal-btn primary" type="submit">Продолжить</button>
+                </form>
 
-            <div class="profile-avatar-block">
-                <div class="profile-avatar" id="profileAvatar">
-                    У
+                <form class="recovery-method" data-prototype-form>
+                    <h4>Способ 2</h4>
+                    <p>Если в профиле указан номер телефона</p>
+                    <input type="tel" placeholder="Введите номер">
+                    <button class="modal-btn primary" type="submit">Продолжить</button>
+                </form>
+
+                <div class="recovery-method text-only">
+                    <h4>Способ 3</h4>
+                    <p>Если в профиле не указан e-mail или номер телефона, либо вы их забыли, обратитесь в ваше учреждение образования с просьбой выдать новый пригласительный код. В первую очередь обращайтесь к классному руководителю.</p>
                 </div>
+            </div>
+            <p class="form-message info hidden" id="forgotMessage"></p>
+        </div>
+    </div>
 
-                <label class="avatar-upload-btn">
-                    Загрузить фото
-                    <input type="file" id="avatarInput" accept="image/*">
-                </label>
+    <div class="modal-overlay hidden" id="registerModal">
+        <div class="modal-card register-modal">
+            <button class="modal-close" data-close-modal="registerModal" type="button">×</button>
+            <div id="registerStepCode">
+                <h3>Регистрация</h3>
+                <form class="modal-form" id="inviteForm" novalidate>
+                    <label>
+                        Пригласительный код
+                        <input type="text" id="inviteCodeInput" placeholder="Введите пригласительный код" maxlength="19" autocomplete="off">
+                    </label>
+                    <p class="form-message error hidden" id="inviteError"></p>
+                    <button class="modal-btn primary" type="submit">Продолжить</button>
+                </form>
+                <p class="helper-text"><strong>Что это такое?</strong><br>Пригласительный код выдаётся вашим учреждением образования. Если у вас его нет, в первую очередь обратитесь к классному руководителю.</p>
             </div>
 
-            <h3 id="profileName">Имя ученика</h3>
-            <p class="profile-subtitle" id="profileSubtitle">Класс не указан</p>
-
-            <div class="profile-actions single-action" id="profileActions">
-                <button class="modal-btn secondary hidden" id="removeAvatarBtn" type="button">
-                    Убрать фото
-                </button>
-
-                <button class="modal-btn primary" id="profileOkBtn" type="button">
-                    Готово
-                </button>
+            <div class="hidden" id="registerStepAccount">
+                <h3>Создание аккаунта</h3>
+                <form class="modal-form" id="registerForm" novalidate>
+                    <label>
+                        Придумайте логин
+                        <input type="text" id="newLoginInput" autocomplete="username">
+                    </label>
+                    <label>
+                        Придумайте пароль
+                        <span class="password-field">
+                            <input type="password" id="newPasswordInput" autocomplete="new-password">
+                            <button class="icon-btn password-toggle" type="button" data-toggle-password="newPasswordInput" aria-label="Показать пароль"></button>
+                        </span>
+                    </label>
+                    <label>
+                        Повторите пароль
+                        <span class="password-field">
+                            <input type="password" id="repeatPasswordInput" autocomplete="new-password">
+                            <button class="icon-btn password-toggle" type="button" data-toggle-password="repeatPasswordInput" aria-label="Показать пароль"></button>
+                        </span>
+                    </label>
+                    <label>
+                        Добавьте e-mail (необязательно)
+                        <input type="email" id="newEmailInput">
+                    </label>
+                    <label>
+                        Добавьте номер телефона (необязательно)
+                        <input type="tel" id="newPhoneInput">
+                    </label>
+                    <p class="form-message error hidden" id="registerError"></p>
+                    <button class="modal-btn primary" type="submit">Зарегистрироваться</button>
+                </form>
             </div>
         </div>
     </div>
 
-    <!-- Подтверждение удаления аватарки -->
-    <div class="modal-overlay hidden" id="removeAvatarModal">
+    <div class="modal-overlay hidden" id="profileModal">
         <div class="modal-card">
-            <div class="modal-icon">
-                !
-            </div>
-
-            <h3>Убрать фото профиля?</h3>
-
-            <p>
-                Текущая аватарка будет удалена. Вместо неё будет отображаться первая буква имени.
-            </p>
-
-            <div class="modal-actions">
-                <button class="modal-btn secondary" id="cancelRemoveAvatarBtn" type="button">
-                    Отмена
-                </button>
-
-                <button class="modal-btn danger" id="confirmRemoveAvatarBtn" type="button">
-                    Убрать
-                </button>
-            </div>
+            <button class="modal-close" data-close-modal="profileModal" type="button">×</button>
+            <div class="modal-icon">✎</div>
+            <h3>Профиль ученика</h3>
+            <p>Редактирование профиля пока не подключено. В прототипе можно загрузить фото, а данные ученика берутся из тестового аккаунта.</p>
+            <button class="modal-btn primary" data-close-modal="profileModal" type="button">Понятно</button>
         </div>
     </div>
 
-    <!-- Подгоняем аватарку -->
-    <div class="modal-overlay hidden" id="avatarCropModal">
-        <div class="modal-card avatar-crop-modal">
-            <button class="modal-close" id="closeAvatarCropBtn" type="button">
-                ×
-            </button>
-
-            <h3>Подогнать фото</h3>
-
-            <p class="crop-subtitle">
-                Выбери масштаб, чтобы фото красиво смотрелось в профиле.
-            </p>
-
-            <div class="crop-preview">
-                <img id="avatarCropImage" alt="Предпросмотр аватарки">
-            </div>
-
-            <label class="crop-range-label">
-                Масштаб
-                <input type="range" id="avatarZoomRange" min="1" max="2.4" step="0.01" value="1">
-            </label>
-
-            <div class="modal-actions">
-                <button class="modal-btn secondary" id="cancelAvatarCropBtn" type="button">
-                    Отмена
-                </button>
-
-                <button class="modal-btn primary" id="saveAvatarCropBtn" type="button">
-                    Сохранить
-                </button>
-            </div>
-        </div>
-    </div>
-
+    <script src="data/accounts.js"></script>
+    <script src="data/diary-data.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
