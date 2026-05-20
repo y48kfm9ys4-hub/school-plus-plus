@@ -7,6 +7,7 @@ const SCHOOL_ACCOUNTS = [
     lastName: "Споняков",
     className: '7 "Б"',
     teacher: "Сидорович Наталья Михайловна",
+    classroom: "28",
     email: "",
     phone: ""
   }

@@ -15,6 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const logoutModal = document.getElementById("logoutModal");
   const cancelLogoutBtn = document.getElementById("cancelLogoutBtn");
   const confirmLogoutBtn = document.getElementById("confirmLogoutBtn");
+  const removeAvatarModal = document.getElementById("removeAvatarModal");
+  const cancelRemoveAvatarBtn = document.getElementById("cancelRemoveAvatarBtn");
+  const confirmRemoveAvatarBtn = document.getElementById("confirmRemoveAvatarBtn");
 
   const heroEyebrow = document.getElementById("heroEyebrow");
   const heroTitle = document.getElementById("heroTitle");
@@ -22,6 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const studentFullName = document.getElementById("studentFullName");
   const studentClassBtn = document.getElementById("studentClassBtn");
   const teacherName = document.getElementById("teacherName");
+  const accountLogin = document.getElementById("accountLogin");
+  const accountEmail = document.getElementById("accountEmail");
+  const accountPhone = document.getElementById("accountPhone");
+  const toggleLoginBtn = document.getElementById("toggleLoginBtn");
   const editProfileBtn = document.getElementById("editProfileBtn");
   const profileModal = document.getElementById("profileModal");
   const avatarInput = document.getElementById("avatarInput");
@@ -80,6 +87,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const diary = typeof SCHOOL_DIARY !== "undefined" ? SCHOOL_DIARY : { weeks: [] };
   let selectedWeekIndex = getInitialWeekIndex();
   let selectedDayKey = getInitialDayKey();
+  let isLoginVisible = false;
+  let currentUser = null;
 
   init();
 
@@ -106,6 +115,8 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutBtn.addEventListener("click", () => openModal(logoutModal));
     cancelLogoutBtn.addEventListener("click", () => closeModal(logoutModal));
     confirmLogoutBtn.addEventListener("click", logout);
+    cancelRemoveAvatarBtn.addEventListener("click", () => closeModal(removeAvatarModal));
+    confirmRemoveAvatarBtn.addEventListener("click", removeAvatar);
 
     prevWeekBtn.addEventListener("click", () => selectWeek(selectedWeekIndex - 1));
     nextWeekBtn.addEventListener("click", () => selectWeek(selectedWeekIndex + 1));
@@ -117,7 +128,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     avatarInput.addEventListener("change", handleAvatarUpload);
-    removeAvatarBtn.addEventListener("click", removeAvatar);
+    removeAvatarBtn.addEventListener("click", () => openModal(removeAvatarModal));
+    toggleLoginBtn.addEventListener("click", toggleLoginVisibility);
     editProfileBtn.addEventListener("click", () => openModal(profileModal));
 
     inviteCodeInput.addEventListener("input", () => {
@@ -223,6 +235,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function showDashboard(user) {
+    currentUser = user;
+    isLoginVisible = false;
     loginScreen.classList.add("hidden");
     dashboardScreen.classList.remove("hidden");
     renderStudent(user);
@@ -260,9 +274,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderStudent(user) {
     const fullName = `${user.lastName} ${user.firstName}`.toUpperCase();
+    const teacherText = user.classroom ? `${user.teacher}, каб. ${user.classroom}` : user.teacher;
+
     studentFullName.textContent = fullName;
     studentClassBtn.textContent = `${user.className} класс`;
-    teacherName.textContent = user.teacher || "—";
+    teacherName.textContent = teacherText || "—";
+    accountEmail.textContent = user.email || "не указан";
+    accountPhone.textContent = user.phone || "не указан";
+    renderAccountLogin(user);
+  }
+
+  function toggleLoginVisibility() {
+    isLoginVisible = !isLoginVisible;
+
+    if (currentUser) {
+      renderAccountLogin(currentUser);
+    }
+  }
+
+  function renderAccountLogin(user) {
+    accountLogin.textContent = isLoginVisible ? user.login : "••••••••";
+    toggleLoginBtn.innerHTML = getEyeIcon(isLoginVisible);
+    toggleLoginBtn.setAttribute("aria-label", isLoginVisible ? "Скрыть логин" : "Показать логин");
   }
 
   function renderHero(user) {
@@ -435,6 +468,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function removeAvatar() {
     localStorage.removeItem(STORAGE_KEYS.avatar);
     avatarInput.value = "";
+    closeModal(removeAvatarModal);
     renderAvatar();
   }
 

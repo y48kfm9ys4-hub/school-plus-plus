@@ -98,6 +98,26 @@
 
                         <p class="teacher-line">Классный руководитель: <span id="teacherName">—</span></p>
 
+                        <div class="account-details">
+                            <div class="account-detail">
+                                <span>Логин:</span>
+                                <div class="masked-detail">
+                                    <strong id="accountLogin">••••••••</strong>
+                                    <button class="icon-btn detail-eye-btn" id="toggleLoginBtn" type="button" aria-label="Показать логин"></button>
+                                </div>
+                            </div>
+
+                            <div class="account-detail">
+                                <span>E-mail:</span>
+                                <strong id="accountEmail">не указан</strong>
+                            </div>
+
+                            <div class="account-detail">
+                                <span>Телефон:</span>
+                                <strong id="accountPhone">не указан</strong>
+                            </div>
+                        </div>
+
                         <button class="edit-profile-btn" id="editProfileBtn" type="button">
                             <span aria-hidden="true">✎</span>
                             Изменить
@@ -136,10 +156,22 @@
         <div class="modal-card">
             <div class="modal-icon">?</div>
             <h3>Выйти из дневника?</h3>
-            <p>Вы вернётесь на экран входа. Тема и фото ученика останутся в этом браузере.</p>
+            <p>Вы вернётесь на экран входа. Данные аккаунта не удаляются.</p>
             <div class="modal-actions">
                 <button class="modal-btn secondary" id="cancelLogoutBtn" type="button">Отмена</button>
                 <button class="modal-btn danger" id="confirmLogoutBtn" type="button">Выйти</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay hidden" id="removeAvatarModal">
+        <div class="modal-card">
+            <div class="modal-icon">!</div>
+            <h3>Убрать фото профиля?</h3>
+            <p>Ваше фото будет удалено. Данные аккаунта и дневник останутся без изменений.</p>
+            <div class="modal-actions">
+                <button class="modal-btn secondary" id="cancelRemoveAvatarBtn" type="button">Отмена</button>
+                <button class="modal-btn danger" id="confirmRemoveAvatarBtn" type="button">Убрать</button>
             </div>
         </div>
     </div>
